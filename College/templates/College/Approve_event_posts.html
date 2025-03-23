@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Event Posts | UNIVERSE</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f8fa;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        /* Header/Navbar */
+        .navbar {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .navbar h1 i {
+            color: var(--secondary);
+            margin-right: 0.5rem;
+        }
+        
+        .navbar a {
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar a:hover {
+            background-color: var(--secondary);
+            transform: translateX(5px);
+        }
+        
+        /* Main Container */
+        .container {
+            padding: 2rem;
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .page-header {
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .page-header h2 {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+        
+        .page-header:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            background-color: var(--secondary);
+            bottom: -1px;
+            left: 0;
+        }
+        
+        /* Post Cards */
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .post-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            position: relative;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .event-badge {
+            background-color: var(--secondary);
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .caption {
+            margin-bottom: 1.5rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .post-image-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .post-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .post-card:hover .post-image {
+            transform: scale(1.05);
+        }
+        
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn-action {
+            flex: 1;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-approve {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+        }
+        
+        .btn-approve:hover {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-reject {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--danger);
+        }
+        
+        .btn-reject:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .no-posts {
+            text-align: center;
+            padding: 3rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .no-posts i {
+            font-size: 3rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .no-posts p {
+            color: #777;
+            font-size: 1.2rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .post-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <h1><i class="fas fa-calendar-check"></i> UNI<span style="color: #3498db;">VERSE</span></h1>
+        <a href="{% url 'College:college_home' %}" id="backButton">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h2>Pending Event Posts for Approval</h2>
+            <p class="text-muted">Review and approve student event posts</p>
+        </div>
+
+        {% if pending_posts %}
+        <div class="post-grid">
+            {% for post in pending_posts %}
+            <div class="post-card">
+                <div class="card-header">
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            {{ post.student.name|slice:":1" }}
+                        </div>
+                        <div>
+                            <h5 class="mb-0">{{ post.student.name }}</h5>
+                            <div class="event-badge">
+                                <i class="fas fa-calendar-alt me-1"></i> {{ post.event.title }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="caption">
+                        <p>{{ post.caption }}</p>
+                    </div>
+                    
+                    {% if post.image %}
+                    <div class="post-image-container">
+                        <img src="{{ post.image.url }}" alt="Event Image" class="post-image">
+                    </div>
+                    {% else %}
+                    <div class="post-image-container">
+                        <div class="image-placeholder">
+                            <i class="fas fa-image fa-2x"></i>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="card-actions">
+                        <form action="{% url 'College:approve_student_event_post' post.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-action btn-approve">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                        </form>
+                        <form action="{% url 'College:reject_student_event_post' post.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-action btn-reject">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-posts">
+            <i class="fas fa-clipboard-check"></i>
+            <p>No pending event posts for approval.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 UNIVERSE. All rights reserved.</p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Animation for post cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.post-card');
+            
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Back button functionality
+            document.getElementById('backButton').addEventListener('click', function(e) {
+                // If you want custom behavior instead of the default link action
+                // e.preventDefault();
+                // Custom behavior here
+            });
+        });
+    </script>
+</body>
+</html>

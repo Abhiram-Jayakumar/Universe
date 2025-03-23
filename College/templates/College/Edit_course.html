@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Course | UNIVERSE</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navbar */
+        .navbar {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar h1 {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .navbar h1 i {
+            color: var(--secondary);
+            margin-right: 10px;
+        }
+        
+        .navbar a {
+            color: white;
+            transition: color 0.3s, transform 0.3s;
+        }
+        
+        .navbar a:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+        
+        /* Form Container */
+        .form-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 2.5rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            flex: 1;
+        }
+        
+        .form-container h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--secondary);
+            position: relative;
+            font-weight: 600;
+        }
+        
+        .form-container h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 80px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        
+        /* Form Styles */
+        .form-control {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 0.8rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+        
+        label {
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            border: none;
+            padding: 0.7rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Animated Input Labels */
+        .form-floating {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-floating label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            padding: 1rem 0.75rem;
+            pointer-events: none;
+            border: 1px solid transparent;
+            transform-origin: 0 0;
+            transition: opacity .1s ease-in-out, transform .1s ease-in-out;
+            color: #6c757d;
+        }
+        
+        .form-floating input:focus ~ label,
+        .form-floating input:not(:placeholder-shown) ~ label {
+            opacity: .65;
+            transform: scale(.85) translateY(-0.5rem) translateX(0.15rem);
+            background-color: white;
+            padding: 0 5px;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark);
+            color: #bdc3c7;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+        
+        .footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-container {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        /* Form Action Buttons */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        
+        .btn-secondary {
+            background-color: #95a5a6;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+        
+        /* Custom Validation Styles */
+        .custom-validation {
+            color: var(--accent);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        .form-control.is-invalid ~ .custom-validation {
+            display: block;
+        }
+        
+        .form-control.is-invalid {
+            border-color: var(--accent);
+        }
+        
+        /* Additional UX enhancements */
+        .form-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .back-link {
+            margin-right: 1rem;
+            color: var(--primary);
+            transition: transform 0.3s;
+        }
+        
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+        
+        .course-icon {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center;">
+        <h1><i class="fas fa-graduation-cap"></i> UNI<span style="color: #3498db;">VERSE</span></h1>
+        <a href="{% url 'College:college_home' %}" class="d-flex align-items-center">
+            <span class="me-2">Back to Dashboard</span>
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <!-- Form Container -->
+    <div class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <a href="{% url 'College:college_home' %}" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <i class="fas fa-book course-icon"></i>
+                <h2>Edit Course Information</h2>
+            </div>
+            
+            <form method="post" id="editCourseForm">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label for="course_name">Course Name</label>
+                    <input type="text" id="course_name" name="course_name" class="form-control" value="{{ course.course_name }}" required>
+                    <div class="custom-validation">Please enter a valid course name</div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="duration">Duration</label>
+                    <div class="input-group">
+                        <input type="text" id="duration" name="duration" class="form-control" value="{{ course.duration }}" required>
+                        <span class="input-group-text">semesters</span>
+                    </div>
+                    <div class="custom-validation">Duration must be a valid number</div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" class="form-control" rows="4" required>{{ course.description }}</textarea>
+                    <div class="custom-validation">Please provide a course description</div>
+                </div>
+                
+                <div class="form-actions">
+                    <a href="{% url 'College:college_home' %}" class="btn btn-secondary">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Update Course
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 UNIVERSE - College Management System. All rights reserved.</p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('editCourseForm');
+            
+            form.addEventListener('submit', function(event) {
+                let isValid = true;
+                
+                // Course name validation
+                const courseName = document.getElementById('course_name');
+                if (!courseName.value.trim()) {
+                    courseName.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    courseName.classList.remove('is-invalid');
+                }
+                
+                // Duration validation
+                const duration = document.getElementById('duration');
+                if (!duration.value.trim() || isNaN(duration.value)) {
+                    duration.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    duration.classList.remove('is-invalid');
+                }
+                
+                // Description validation
+                const description = document.getElementById('description');
+                if (!description.value.trim()) {
+                    description.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    description.classList.remove('is-invalid');
+                }
+                
+                if (!isValid) {
+                    event.preventDefault();
+                }
+            });
+            
+            // Remove validation errors on input
+            const inputs = form.querySelectorAll('.form-control');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    this.classList.remove('is-invalid');
+                });
+            });
+            
+            // Animation effects for form elements
+            const formElements = document.querySelectorAll('.form-container .mb-4');
+            formElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                element.style.transitionDelay = (index * 0.1) + 's';
+                
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>

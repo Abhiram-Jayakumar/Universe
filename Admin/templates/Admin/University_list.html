@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University List | UNIVERSE</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3a5ccc;
+            --secondary-color: #7186d5;
+            --accent-color: #f8f9fa;
+            --text-color: #333;
+            --light-gray: #f4f6fc;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+        }
+        
+        .navbar h2 {
+            color: white;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .universe-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .universe-logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .main-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin: 2rem auto;
+        }
+        
+        .page-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .page-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--secondary-color);
+        }
+        
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+            border-collapse: separate;
+            border-spacing: 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.02);
+        }
+        
+        .table thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .table th {
+            font-weight: 500;
+            padding: 12px 15px;
+            vertical-align: middle;
+            border: none;
+        }
+        
+        .table td {
+            padding: 12px 15px;
+            vertical-align: middle;
+            border-color: #eaeaea;
+        }
+        
+        .table tbody tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        .table tbody tr:hover {
+            background-color: rgba(113, 134, 213, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-delete {
+            background-color: #ff5c5c;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .btn-delete:hover {
+            background-color: #ff3838;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-add {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .btn-add:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .alert {
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .alert ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 2rem;
+        }
+        
+        .footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .actions-column {
+            text-align: center;
+            width: 120px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6c757d;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <div class="universe-logo">
+                <i class="fas fa-globe-americas"></i>
+                <h2>UNIVERSE</h2>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-container">
+        <h2 class="page-title text-center">Universities Database</h2>
+        
+        <!-- Add University button -->
+        <div class="text-end mb-4">
+            <button class="btn-add">
+                <i class="fas fa-plus"><a href="{% url 'Admin:add_university' %}" style="text-decoration: none; color: #eaeaea;">Add University</a></i> 
+            </button>
+        </div>
+        
+        {% if messages %}
+            <div class="alert alert-info">
+                <ul>
+                    {% for message in messages %}
+                        <li><i class="fas fa-info-circle me-2"></i>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th class="actions-column">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if universities %}
+                        {% for university in universities %}
+                        <tr>
+                            <td>{{ university.id }}</td>
+                            <td>{{ university.name }}</td>
+                            <td><i class="fas fa-map-marker-alt me-2 text-secondary"></i>{{ university.location }}</td>
+                            <td><i class="fas fa-envelope me-2 text-secondary"></i>{{ university.email }}</td>
+                            <td><i class="fas fa-phone-alt me-2 text-secondary"></i>{{ university.contact }}</td>
+                            <td class="actions-column">
+                                <form method="post" action="{% url 'Admin:delete_university' university.id %}" onsubmit="return confirm('Are you sure you want to delete this university?');" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-delete">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6">
+                                <div class="empty-state">
+                                    <i class="fas fa-school"></i>
+                                    <p>No universities available. Add your first university to get started.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="container">
+            <p>&copy; 2023 UNIVERSE. All rights reserved.</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

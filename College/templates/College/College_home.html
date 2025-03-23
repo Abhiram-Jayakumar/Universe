@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Home - UNIVERSE</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --accent-color: #ff6b6b;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar styles */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            max-height: fit-content;
+
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .sidebar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .menu-category {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 1.5rem 0 0.5rem;
+            opacity: 0.7;
+        }
+        
+        .sidebar-menu a {
+            display: block;
+            padding: 0.7rem 1rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 0.3rem;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .sidebar-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-menu a span {
+            font-size: 0.9rem;
+        }
+        
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            left: 0;
+        }
+        
+        .sidebar-footer a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            max-height: max-content;
+
+        }
+        
+        /* Main content area */
+        .main-content {
+            margin-left: 260px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-top {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .user-welcome {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1rem;
+        }
+        
+        /* Dashboard cards */
+        .dashboard-title {
+            margin-bottom: 2rem;
+            color: var(--dark-color);
+            font-weight: 700;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: rgba(78, 84, 200, 0.1);
+            margin-bottom: 1rem;
+        }
+        
+        .card-icon i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);
+            transform: translateY(-3px);
+        }
+        
+        /* Stats section */
+        .stats-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Testimonials section */
+        .testimonials {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .testimonial-item {
+            padding: 1.5rem;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            color: #495057;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            overflow: hidden;
+            margin-right: 1rem;
+            margin-left: auto;
+            margin-right: 0%;
+        }
+        
+        .author-info h5 {
+            margin-bottom: 0;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .author-info p {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .quote-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: rgba(78, 84, 200, 0.1);
+            font-size: 2rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .footer p {
+            margin-bottom: 0;
+            color: #6c757d;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 80px;
+                padding: 1rem 0.5rem;
+            }
+            
+            .sidebar-brand {
+                font-size: 1.2rem;
+            }
+            
+            .sidebar-menu a span,
+            .menu-category,
+            .sidebar-footer span {
+                display: none;
+            }
+            
+            .sidebar-menu a i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            
+            .sidebar-footer {
+                padding: 0.5rem;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+        }
+        .sidebar {
+        overflow-y: auto; /* Add vertical scrollbar */
+        max-height: 100vh; /* Ensure the sidebar does not exceed the viewport height */
+    }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-brand"><i class="fas fa-calendar-check"></i> UNIVERSE</h1>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li class="menu-category">College Management</li>
+            <li>
+                <a href="{% url 'College:college_profile' %}">
+                    <i class="fas fa-id-card"></i>
+                    <span>College Profile</span>
+                </a>
+            </li>
+            
+            <li class="menu-category">Student Management</li>
+            <li>
+                <a href="{% url 'College:add_student' %}">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Add Student</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'College:college_students' %}">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>College Students</span>
+                </a>
+            </li>
+            
+            <li class="menu-category">Course Management</li>
+            <li>
+                <a href="{% url 'College:add_course' %}">
+                    <i class="fas fa-book"></i>
+                    <span>Add Course</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'College:college_courses' %}">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>College Courses</span>
+                </a>
+            </li>
+            
+            <li class="menu-category">Faculty Management</li>
+            <li>
+                <a href="{% url 'College:add_faculty' %}">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Add Faculty</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'College:college_faculty' %}">
+                    <i class="fas fa-users"></i>
+                    <span>College Faculty</span>
+                </a>
+            </li>
+            
+            <li class="menu-category">Event Management</li>
+            <li>
+                <a href="{% url 'College:create_event' %}">
+                    <i class="fas fa-calendar-plus"></i>
+                    <span>Create Event</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'College:college_events' %}">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>College Events</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'College:approve_event_posts' %}">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Approve Event Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'College:event_registrations' %}">
+                    <i class="fas fa-user-check"></i>
+                    <span>Event Registrations</span>
+                </a>
+            </li>
+            
+            <li class="menu-category">Placement Management</li>
+            <li>
+                <a href="{% url 'College:add_placement' %}">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Add Placement</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'College:placement_list' %}">
+                    <i class="fas fa-list"></i>
+                    <span>Placement List</span>
+                </a>
+            </li>
+            <li>
+                <hr>
+                <a href="{% url 'Student:index'%}">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span style="color: black;"><b>LOGOUT</b></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navbar -->
+        <div class="navbar-top">
+            <div class="user-welcome">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div>
+                    <h5 class="mb-0">Welcome, {{college.name}}</h5>
+                    <small class="text-muted">College Management Dashboard</small>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-sm btn-outline-secondary mobile-toggle d-lg-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Stats Overview -->
+        <div class="stats-card">
+            <h4 class="mb-4">Overview</h4>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-value">250</div>
+                        <div class="stat-label">Students</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-value">25</div>
+                        <div class="stat-label">Faculty</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">Courses</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Upcoming Events</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Access Section -->
+        <h3 class="dashboard-title">Quick Access</h3>
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="card-icon mx-auto">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h5 class="card-title">Student Management</h5>
+                        <p class="card-text">Add, view, and manage student information, academic records, and more.</p>
+                        <a href="{% url 'College:college_students' %}" class="btn btn-primary">Manage Students</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="card-icon mx-auto">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h5 class="card-title">Event Management</h5>
+                        <p class="card-text">Create, schedule, and manage college events, workshops, and seminars.</p>
+                        <a href="{% url 'College:college_events' %}" class="btn btn-primary">Manage Events</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="card-icon mx-auto">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h5 class="card-title">Placement Portal</h5>
+                        <p class="card-text">Manage campus recruitment, job postings, and placement statistics.</p>
+                        <a href="{% url 'College:placement_list' %}" class="btn btn-primary">Manage Placements</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Testimonials Section -->
+        <div class="testimonials">
+            <h4 class="mb-4">Student & Faculty Testimonials</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="testimonial-item">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p class="testimonial-content">The UNIVERSE portal has transformed how we manage our department. Scheduling classes and tracking student progress has never been easier.</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="https://i.postimg.cc/63SjSkGM/speaker-2-v2.webp" alt="Faculty" />
+                            </div>
+                            <div class="author-info">
+                                <h5>Dr. Sarah Johnson</h5>
+                                <p>Computer Science Department</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="testimonial-item">
+                        <i class="fas fa-quote-right quote-icon"></i>
+                        <p class="testimonial-content">As a student representative, I've seen how UNIVERSE has improved communication between students and faculty. Event registrations are seamless now!</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="https://i.postimg.cc/jq7Z2kfr/Attorneys-5.png" alt="Student" />
+                            </div>
+                            <div class="author-info">
+                                <h5>Michael Chen</h5>
+                                <p>Student Council President</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>&copy; 2023 UNIVERSE - College Management System. All rights reserved.</p>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Toggle sidebar on mobile
+        document.querySelector('.mobile-toggle')?.addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            if (sidebar.style.width === '260px') {
+                sidebar.style.width = '0';
+                mainContent.style.marginLeft = '0';
+            } else {
+                sidebar.style.width = '260px';
+                mainContent.style.marginLeft = '260px';
+            }
+        });
+    </script>
+</body>
+</html>

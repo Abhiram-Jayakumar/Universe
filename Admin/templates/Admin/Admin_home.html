@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNIVERSE Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4158D0;
+            --secondary-color: #C850C0;
+            --accent-color: #FFCC70;
+            --dark-color: #1a1c24;
+            --light-color: #f8f9ff;
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f5 100%);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            height: 100vh;
+            background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 0;
+            transition: all var(--transition-speed);
+            position: fixed;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            width: 250px;
+        }
+
+        .sidebar-logo {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .sidebar-logo h3 {
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .sidebar-item {
+            padding: 12px 20px;
+            transition: all 0.2s;
+            margin: 8px 0;
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-item i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .sidebar-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid var(--accent-color);
+            font-weight: 500;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        #logout {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        #logout a {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-speed);
+        }
+
+        #logout a:hover {
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        #logout i {
+            margin-right: 10px;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            transition: all var(--transition-speed);
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header h1 {
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 24px;
+        }
+
+        .stats-card {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform var(--transition-speed);
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            border: none;
+            height: 100%;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stats-card .card-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+            font-size: 16px;
+            border: none;
+            padding: 15px 20px;
+        }
+
+        .stats-card .card-body {
+            padding: 20px;
+            background-color: white;
+        }
+
+        .stats-card .card-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .stats-card .card-text {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .stats-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 40px;
+            opacity: 0.2;
+            color: var(--primary-color);
+        }
+
+        .chart-card {
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            border: none;
+        }
+
+        .chart-card .card-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: 500;
+            font-size: 16px;
+            border: none;
+            padding: 15px 20px;
+        }
+
+        .chart-card .card-body {
+            padding: 20px;
+            background-color: white;
+            min-height: 350px;
+        }
+
+        /* Toggle Button for Sidebar */
+        #sidebarToggle {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            z-index: 1001;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: none;
+        }
+
+        #sidebarToggle:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar-collapsed .sidebar {
+                transform: translateX(0);
+            }
+
+            #sidebarToggle {
+                display: flex;
+            }
+
+            .sidebar-collapsed #sidebarToggle {
+                left: 270px;
+            }
+        }
+
+        /* Additional Animations */
+        .stats-card, .chart-card {
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Toggle Button for Sidebar -->
+    <button id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-auto p-0 sidebar">
+                <div class="sidebar-logo">
+                    <h3>UNIVERSE</h3>
+                </div>
+                <div class="sidebar-menu">
+                    <div class="sidebar-item active">
+                        <a href="#"><i class="fas fa-home"></i> Dashboard</a>
+                    </div>
+                    <div class="sidebar-item">
+                        <a href="{% url 'Admin:add_university' %}"><i class="fas fa-plus-circle"></i> Add University</a>
+                    </div>
+                    <div class="sidebar-item">
+                        <a href="{% url 'Admin:university_list' %}"><i class="fas fa-university"></i> Manage Universities</a>
+                    </div>
+                    <div class="sidebar-item">
+                        <a href="#"><i class="fas fa-chart-line"></i> Reports</a>
+                    </div>
+                    <div class="sidebar-item">
+                        <a href="#"><i class="fas fa-users"></i> User Management</a>
+                    </div>
+                    <div class="sidebar-item">
+                        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                    </div>
+                </div>
+                <div id="logout">
+                    <a href="{% url 'Student:index' %}"><i class="fas fa-sign-out-alt"></i> LOGOUT</a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col main-content">
+                <div class="page-header">
+                    <h1>Welcome to UNIVERSE Admin Dashboard</h1>
+                    <div class="date-time" id="dateTime"></div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 mb-4">
+                        <div class="card stats-card">
+                            <div class="card-header">Total Universities</div>
+                            <div class="card-body">
+                                <h5 class="card-title" id="universityCounter">0</h5>
+                                <p class="card-text">Registered Universities</p>
+                                <div class="stats-icon">
+                                    <i class="fas fa-university"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mb-4">
+                        <div class="card stats-card">
+                            <div class="card-header">Active Users</div>
+                            <div class="card-body">
+                                <h5 class="card-title" id="userCounter">0</h5>
+                                <p class="card-text">Currently Active</p>
+                                <div class="stats-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mb-4">
+                        <div class="card stats-card">
+                            <div class="card-header">Pending Requests</div>
+                            <div class="card-body">
+                                <h5 class="card-title" id="requestCounter">0</h5>
+                                <p class="card-text">Awaiting Approval</p>
+                                <div class="stats-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <i class="fas fa-chart-line me-2"></i> University Registrations
+                            </div>
+                            <div class="card-body">
+                                <canvas id="universityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <i class="fas fa-chart-bar me-2"></i> User Activity
+                            </div>
+                            <div class="card-body">
+                                <canvas id="userActivityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card chart-card">
+                            <div class="card-header">
+                                <i class="fas fa-history me-2"></i> Recent Activities
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>User</th>
+                                                <th>Activity</th>
+                                                <th>University</th>
+                                                <th>Time</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="activityTable">
+                                            <!-- Dynamically populated by JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar Toggle Functionality
+            const body = document.body;
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            
+            sidebarToggle.addEventListener('click', function() {
+                body.classList.toggle('sidebar-collapsed');
+            });
+
+            // Date and Time
+            function updateDateTime() {
+                const now = new Date();
+                const options = { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                document.getElementById('dateTime').textContent = now.toLocaleDateString('en-US', options);
+            }
+            
+            updateDateTime();
+            setInterval(updateDateTime, 60000);
+
+            // Animated Counter for Stats
+            function animateCounter(id, target, duration = 2000) {
+                const obj = document.getElementById(id);
+                const start = 0;
+                const range = target - start;
+                const increment = target > start ? 1 : -1;
+                const stepTime = Math.abs(Math.floor(duration / range));
+                
+                let current = start;
+                const timer = setInterval(function() {
+                    current += increment;
+                    obj.textContent = current.toLocaleString();
+                    
+                    if (current == target) {
+                        clearInterval(timer);
+                    }
+                }, stepTime);
+            }
+
+            // Start counters with delay for visual effect
+            setTimeout(() => animateCounter('universityCounter', 150), 300);
+            setTimeout(() => animateCounter('userCounter', 1200), 600);
+            setTimeout(() => animateCounter('requestCounter', 25), 900);
+
+            // University Registrations Chart
+            const universityCtx = document.getElementById('universityChart').getContext('2d');
+            const universityChart = new Chart(universityCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'New Registrations',
+                        data: [10, 20, 30, 40, 50, 60],
+                        borderColor: '#4158D0',
+                        backgroundColor: 'rgba(65, 88, 208, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#4158D0',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            usePointStyle: true,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false,
+                                color: '#f2f2f2',
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    }
+                }
+            });
+
+            // User Activity Chart
+            const userActivityCtx = document.getElementById('userActivityChart').getContext('2d');
+            const userActivityChart = new Chart(userActivityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Active Users',
+                        data: [50, 100, 150, 200, 250, 300, 350],
+                        backgroundColor: function(context) {
+                            const chart = context.chart;
+                            const {ctx, chartArea} = chart;
+                            
+                            if (!chartArea) {
+                                return null;
+                            }
+                            
+                            const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                            gradient.addColorStop(0, '#C850C0');
+                            gradient.addColorStop(1, '#4158D0');
+                            return gradient;
+                        },
+                        borderRadius: 6,
+                        borderWidth: 0,
+                        hoverBackgroundColor: '#FFCC70',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false,
+                                color: '#f2f2f2',
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Generate random activity data
+            const activities = [
+                'Created new account',
+                'Updated profile',
+                'Added university',
+                'Modified information',
+                'Approved request',
+                'Rejected application'
+            ];
+            
+            const universities = [
+                'Harvard University',
+                'Stanford University',
+                'MIT',
+                'Oxford University',
+                'Cambridge University',
+                'Yale University'
+            ];
+            
+            const statuses = [
+                { name: 'Completed', class: 'success' },
+                { name: 'Pending', class: 'warning' },
+                { name: 'Failed', class: 'danger' },
+                { name: 'Processing', class: 'info' }
+            ];
+            
+            const activityTable = document.getElementById('activityTable');
+            
+            function generateRandomActivities() {
+                activityTable.innerHTML = '';
+                const now = new Date();
+                
+                for (let i = 0; i < 5; i++) {
+                    const row = document.createElement('tr');
+                    const randomTime = new Date(now.getTime() - Math.floor(Math.random() * 12 * 3600000));
+                    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+                    
+                    row.innerHTML = `
+                        <td>User ${Math.floor(Math.random() * 1000) + 1}</td>
+                        <td>${activities[Math.floor(Math.random() * activities.length)]}</td>
+                        <td>${universities[Math.floor(Math.random() * universities.length)]}</td>
+                        <td>${randomTime.toLocaleTimeString()}</td>
+                        <td><span class="badge bg-${randomStatus.class}">${randomStatus.name}</span></td>
+                    `;
+                    
+                    activityTable.appendChild(row);
+                }
+            }
+            
+            generateRandomActivities();
+            
+            // Refresh activities every 30 seconds for demo purposes
+            setInterval(generateRandomActivities, 30000);
+        });
+    </script>
+</body>
+
+</html>

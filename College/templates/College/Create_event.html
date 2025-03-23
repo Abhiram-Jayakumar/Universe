@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNIVERSE - Create Event</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navbar styling */
+        .navbar {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar h1 {
+            font-weight: 600;
+        }
+        
+        .navbar h1 i {
+            color: var(--secondary);
+            margin-right: 10px;
+        }
+        
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar a:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+        
+        /* Form container styling */
+        .form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 2.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-container h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .form-container h2:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: var(--secondary);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Form elements styling */
+        .form-control {
+            border: 1px solid #e0e6ed;
+            border-radius: 8px;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+        }
+        
+        label {
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        /* Checkbox styling */
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            vertical-align: middle;
+            accent-color: var(--secondary);
+        }
+        
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: rgba(52, 152, 219, 0.05);
+            transition: background-color 0.3s ease;
+        }
+        
+        .checkbox-container:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        /* Button styling */
+        .btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #95a5a6;
+            border-color: #95a5a6;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+            border-color: #7f8c8d;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(127, 140, 141, 0.3);
+        }
+        
+        /* Separator styling */
+        hr {
+            margin: 1.5rem 0;
+            opacity: 0.1;
+        }
+        
+        /* Toggle switch for checkboxes */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        .switch-container:hover {
+            background-color: #f1f4f7;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-right: 15px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--secondary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .switch-label {
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        /* File input styling */
+        .file-input-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .file-input-container label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .custom-file-upload {
+            border: 1px dashed #ccc;
+            display: inline-block;
+            width: 100%;
+            padding: 30px 20px;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+        
+        .custom-file-upload:hover {
+            border-color: var(--secondary);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .custom-file-upload i {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        /* Footer styling */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+        
+        .footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Animation effect */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            
+            .navbar {
+                padding: 0.8rem 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1><i class="fas fa-calendar-check"></i> UNIVERSE</h1>
+        <a href="{% url 'College:college_home' %}">
+            <i class="fas fa-home"></i> Home
+        </a>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <h2>Create Event</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="title">Event Title</label>
+                <input type="text" id="title" name="title" class="form-control" required placeholder="Enter event title">
+            </div>
+            
+            <div class="mb-4">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" class="form-control" required 
+                    placeholder="Describe your event in detail"></textarea>
+            </div>
+            
+            <div class="file-input-container">
+                <label for="image">Event Image</label>
+                <label for="image" class="custom-file-upload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>Upload event image (optional)</span>
+                </label>
+                <input type="file" id="image" name="image" class="form-control" style="display: none;">
+            </div>
+            
+            <div class="switch-container">
+                <label class="switch">
+                    <input type="checkbox" id="is_active" name="is_active" checked>
+                    <span class="slider"></span>
+                </label>
+                <p class="switch-label">Active Event</p>
+            </div>
+            
+            <div class="switch-container">
+                <label class="switch">
+                    <input type="checkbox" id="is_registration_required" name="is_registration_required" 
+                        onchange="toggleRegistrationFee()">
+                    <span class="slider"></span>
+                </label>
+                <p class="switch-label">Require Registration</p>
+            </div>
+            
+            <div class="switch-container">
+                <label class="switch">
+                    <input type="checkbox" id="is_registration_free" name="is_registration_free" 
+                        onchange="toggleRegistrationFee()">
+                    <span class="slider"></span>
+                </label>
+                <p class="switch-label">Free Registration</p>
+            </div>
+            
+            <div id="registration_fee_field" class="mb-4" style="display: none;">
+                <label for="registration_fee">Registration Fee</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" id="registration_fee" name="registration_fee" class="form-control" 
+                        step="0.01" placeholder="0.00">
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'College:college_events' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i> Back to Events
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus-circle me-2"></i> Create Event
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 UNIVERSE - University Event Management. All rights reserved.</p>
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Show selected filename for image upload
+        document.getElementById('image').addEventListener('change', function() {
+            const filename = this.files[0]?.name || 'No file selected';
+            const label = document.querySelector('.custom-file-upload span');
+            if (this.files.length > 0) {
+                label.textContent = filename;
+                document.querySelector('.custom-file-upload').style.borderColor = '#2ecc71';
+                document.querySelector('.custom-file-upload i').className = 'fas fa-check-circle';
+                document.querySelector('.custom-file-upload i').style.color = '#2ecc71';
+            } else {
+                label.textContent = 'Upload event image (optional)';
+                document.querySelector('.custom-file-upload').style.borderColor = '#ccc';
+                document.querySelector('.custom-file-upload i').className = 'fas fa-cloud-upload-alt';
+                document.querySelector('.custom-file-upload i').style.color = '#3498db';
+            }
+        });
+
+        // Toggle registration fee field
+        function toggleRegistrationFee() {
+            const isRequired = document.getElementById("is_registration_required").checked;
+            const isFree = document.getElementById("is_registration_free").checked;
+            const feeField = document.getElementById("registration_fee_field");
+            
+            if (isRequired && !isFree) {
+                feeField.style.display = "block";
+            } else {
+                feeField.style.display = "none";
+                document.getElementById("registration_fee").value = "";
+            }
+        }
+        
+        // Initialize the form with proper display states
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleRegistrationFee();
+        });
+    </script>
+</body>
+
+</html>

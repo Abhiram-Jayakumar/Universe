@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Faculty | UNIVERSE</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        /* Navbar Styling */
+        .navbar {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar h1 {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .navbar h1 i {
+            color: var(--secondary);
+            margin-right: 10px;
+        }
+        
+        .navbar .back-btn {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: transform 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .navbar .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+            color: var(--secondary);
+        }
+        
+        .navbar .back-btn i {
+            margin-right: 8px;
+        }
+        
+        /* Form Container Styling */
+        .form-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            flex-grow: 1;
+        }
+        
+        .form-container h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .form-container h2::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+            bottom: -2px;
+            left: 0;
+        }
+        
+        /* Form Styling */
+        .form-control {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+            border-color: var(--secondary);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 500;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .btn-cancel {
+            background-color: #95a5a6;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 500;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #7f8c8d;
+            color: white;
+        }
+        
+        /* Form Group Animation */
+        .mb-3 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .mb-3 label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+            transition: all 0.3s;
+        }
+        
+        /* Footer Styling */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+        
+        .footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+        
+        /* Input Icons */
+        .input-group {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 1rem;
+            color: #95a5a6;
+        }
+        
+        .input-with-icon {
+            padding-left: 2.5rem;
+        }
+        
+        /* Form Validation Styling */
+        .form-control.is-invalid {
+            border-color: var(--accent);
+            background-image: none;
+        }
+        
+        .invalid-feedback {
+            color: var(--accent);
+            font-size: 0.85rem;
+        }
+        
+        /* Card Styling for Form Sections */
+        .form-section {
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: rgba(236, 240, 241, 0.3);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .form-section-title {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1><i class="fas fa-calendar-check"></i> UNIVERSE</h1>
+        <a href="{% url 'College:college_home' %}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Form Container -->
+        <div class="form-container">
+            <h2><i class="fas fa-user-edit"></i> Edit Faculty</h2>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-section">
+                    <div class="form-section-title">Personal Information</div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <div class="input-group">
+                            <span class="input-icon"><i class="fas fa-user"></i></span>
+                            <input type="text" id="name" name="name" class="form-control input-with-icon" value="{{ faculty.name }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <div class="input-group">
+                            <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                            <input type="email" id="email" name="email" class="form-control input-with-icon" value="{{ faculty.email }}" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <div class="form-section-title">Professional Details</div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Faculty Description</label>
+                        <textarea id="description" name="description" class="form-control" required>{{ faculty.description }}</textarea>
+                        <small class="text-muted">Include academic background, areas of expertise, and teaching philosophy.</small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="social_media" class="form-label">Social Media/Profile URL</label>
+                        <div class="input-group">
+                            <span class="input-icon"><i class="fas fa-globe"></i></span>
+                            <input type="url" id="social_media" name="social_media" class="form-control input-with-icon" value="{{ faculty.social_media }}" placeholder="https://example.com/profile">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="course" class="form-label">Assigned Course</label>
+                        <select id="course" name="course" class="form-control" required>
+                            <option value="">Select a course</option>
+                            {% for course in courses %}
+                                <option value="{{ course.id }}" {% if faculty.course.id == course.id %}selected{% endif %}>{{ course.course_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="{% url 'College:college_faculty' %}" class="btn-cancel">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Update Faculty
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 UNIVERSE - University Event Management System. All rights reserved.</p>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Form Validation Script -->
+    <script>
+        // Form validation
+        (function() {
+            'use strict';
+            
+            // Fetch all forms that need validation
+            const forms = document.querySelectorAll('form');
+            
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    
+                    form.classList.add('was-validated');
+                }, false);
+            });
+            
+            // Add animations to form inputs
+            const formControls = document.querySelectorAll('.form-control');
+            formControls.forEach(control => {
+                control.addEventListener('focus', () => {
+                    control.parentElement.querySelector('label')?.classList.add('active');
+                });
+                
+                control.addEventListener('blur', () => {
+                    if (control.value === '') {
+                        control.parentElement.querySelector('label')?.classList.remove('active');
+                    }
+                });
+                
+                // Check if the input has a value on page load
+                if (control.value !== '') {
+                    control.parentElement.querySelector('label')?.classList.add('active');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

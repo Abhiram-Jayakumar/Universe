@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event Post | UNIVERSE</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navbar styling */
+        .navbar {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar h1 {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .navbar h1 i {
+            color: var(--secondary);
+            margin-right: 0.5rem;
+        }
+        
+        .navbar a {
+            color: white;
+            transition: color 0.3s, transform 0.3s;
+        }
+        
+        .navbar a:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+        
+        /* Form container styling */
+        .page-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .form-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--secondary), var(--accent));
+        }
+        
+        .form-container h2 {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+        
+        .form-container h2::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--secondary), var(--accent));
+        }
+        
+        /* Form styling */
+        label {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .form-select,
+        .form-control {
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-select:focus,
+        .form-control:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .file-upload-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #d0d0d0;
+            border-radius: 8px;
+            padding: 2rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-label:hover {
+            border-color: var(--secondary);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .file-upload-label i {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-upload-text {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .file-upload-subtext {
+            display: block;
+            font-size: 0.85rem;
+            color: #777;
+            margin-top: 0.25rem;
+        }
+        
+        .custom-file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .file-name {
+            margin-top: 0.5rem;
+            display: none;
+            font-size: 0.85rem;
+            color: var(--primary);
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 0.3rem 0.7rem;
+            border-radius: 4px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--secondary), #2980b9);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+            background: linear-gradient(to right, #2980b9, var(--secondary));
+        }
+        
+        .error-message {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 3px solid var(--accent);
+            color: var(--accent);
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Footer styling */
+        .footer {
+            background-color: var(--dark);
+            color: #bdc3c7;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .navbar {
+                padding: 0.8rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar d-flex justify-content-between align-items-center">
+        <h1 class="m-0"><i class="fas fa-calendar-check"></i> UNIVERSE</h1>
+        <a href="{% url 'Student:student_home' %}" class="text-white text-decoration-none fs-4">
+            <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Form Container -->
+        <div class="form-container">
+            <h2><i class="fas fa-plus-circle me-2"></i>Add an Event Post</h2>
+
+            {% if error %}
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle me-2"></i>{{ error }}
+                </div>
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label for="event_id" class="form-label">Select Event</label>
+                    <select id="event_id" name="event_id" class="form-select" required>
+                        <option value="" disabled selected>-- Choose an event --</option>
+                        {% for event in events %}
+                            <option value="{{ event.id }}">{{ event.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="caption" class="form-label">Caption</label>
+                    <textarea id="caption" name="caption" class="form-control" placeholder="Write an engaging caption for your event post..." required></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Upload Image</label>
+                    <div class="file-upload-wrapper">
+                        <div class="file-upload-label">
+                            <div class="text-center">
+                                <i class="fas fa-cloud-upload-alt d-block mb-2"></i>
+                                <span class="file-upload-text">Drag and drop an image or click to browse</span>
+                                <span class="file-upload-subtext">Supported formats: JPG, PNG, GIF</span>
+                            </div>
+                        </div>
+                        <input type="file" id="image" name="image" class="custom-file-input" accept="image/*" required>
+                        <div class="file-name" id="fileName"></div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane me-2"></i>Post Event
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p class="m-0">&copy; 2023 UNIVERSE. All rights reserved.</p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Show file name when user selects a file
+        document.getElementById('image').addEventListener('change', function() {
+            const fileName = document.getElementById('fileName');
+            if(this.files && this.files[0]) {
+                fileName.textContent = this.files[0].name;
+                fileName.style.display = 'inline-block';
+                
+                // Show preview of image (optional)
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const uploadLabel = document.querySelector('.file-upload-label');
+                    uploadLabel.style.backgroundImage = `url(${e.target.result})`;
+                    uploadLabel.style.backgroundSize = 'contain';
+                    uploadLabel.style.backgroundPosition = 'center';
+                    uploadLabel.style.backgroundRepeat = 'no-repeat';
+                    uploadLabel.style.minHeight = '200px';
+                    uploadLabel.querySelector('i').style.display = 'none';
+                    uploadLabel.querySelector('.file-upload-text').style.display = 'none';
+                    uploadLabel.querySelector('.file-upload-subtext').style.display = 'none';
+                }
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                fileName.style.display = 'none';
+            }
+        });
+        
+        // Add animation when form loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const formElements = document.querySelectorAll('.form-container > *');
+            formElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    element.style.transition = 'opacity 0.5s, transform 0.5s';
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body>
+</html>

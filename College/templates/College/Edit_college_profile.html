@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit College Profile | UNIVERSE</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .navbar {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 5%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .navbar h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .navbar h1 i {
+            color: var(--secondary);
+            margin-right: 0.5rem;
+        }
+        
+        .navbar a {
+            color: white;
+            transition: color 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar a:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+        
+        .form-container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--secondary), var(--accent));
+        }
+        
+        .form-container h2 {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e1e5eb;
+            position: relative;
+        }
+        
+        .form-container h2::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+            bottom: -1px;
+            left: 0;
+        }
+        
+        .form-container label {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            border: 1px solid #dde2e6;
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: #95a5a6;
+            border-color: #95a5a6;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+            border-color: #7f8c8d;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(127, 140, 141, 0.4);
+        }
+        
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+        
+        .footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+        
+        /* Floating label effect */
+        .form-floating {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-floating > label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            padding: 1rem 0.75rem;
+            pointer-events: none;
+            border: 1px solid transparent;
+            transform-origin: 0 0;
+            transition: opacity .1s ease-in-out, transform .1s ease-in-out;
+            color: #6c757d;
+        }
+        
+        .form-floating > .form-control {
+            padding: 1.625rem 0.75rem 0.625rem;
+            height: calc(3.5rem + 2px);
+        }
+        
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label {
+            opacity: .65;
+            transform: scale(.85) translateY(-0.5rem) translateX(0.15rem);
+            color: var(--secondary);
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-container {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .form-group {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+        
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center;">
+        <h1><i class="fas fa-calendar-check"></i> UNI<span style="color: var(--secondary);">VERSE</span></h1>
+        <a href="{% url 'College:college_home' %}" style="text-decoration: none; font-size: 16px;">
+            <span style="margin-right: 8px;">Back to Dashboard</span> <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <h2>Edit College Profile</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <div class="form-floating mb-3">
+                    <input type="text" id="name" name="name" class="form-control" value="{{ college.name }}" placeholder="College Name" required>
+                    <label for="name"><i class="fas fa-university me-2"></i>College Name</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-floating mb-3">
+                    <input type="text" id="location" name="location" class="form-control" value="{{ college.location }}" placeholder="Location" required>
+                    <label for="location"><i class="fas fa-map-marker-alt me-2"></i>Location</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-floating mb-3">
+                    <input type="email" id="email" name="email" class="form-control" value="{{ college.email }}" placeholder="Email Address" required>
+                    <label for="email"><i class="fas fa-envelope me-2"></i>Email Address</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-floating mb-3">
+                    <input type="text" id="contact" name="contact" class="form-control" value="{{ college.contact }}" placeholder="Contact Number" required>
+                    <label for="contact"><i class="fas fa-phone me-2"></i>Contact Number</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-floating mb-3">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="New Password">
+                    <label for="password"><i class="fas fa-lock me-2"></i>New Password</label>
+                    <div class="form-text text-muted">Leave blank to keep current password</div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Update Profile
+                </button>
+                <a href="{% url 'College:college_profile' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Profile
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 UNIVERSE - College Event Management System. All rights reserved.</p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Form validation enhancement
+        (function() {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation');
+            
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    
+                    form.classList.add('was-validated');
+                }, false);
+            });
+            
+            // Password strength indicator
+            const passwordInput = document.getElementById('password');
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function() {
+                    const value = this.value;
+                    let strength = 0;
+                    
+                    if (value.length > 0) {
+                        // Password is not empty, some basic strength check
+                        if (value.length >= 8) strength += 1;
+                        if (value.match(/[a-z]/) && value.match(/[A-Z]/)) strength += 1;
+                        if (value.match(/\d/)) strength += 1;
+                        if (value.match(/[^a-zA-Z\d]/)) strength += 1;
+                    }
+                    
+                    const strengthMsg = document.createElement('div');
+                    strengthMsg.className = 'password-strength';
+                    
+                    // Remove any existing strength messages
+                    const existingMsg = document.querySelector('.password-strength');
+                    if (existingMsg) existingMsg.remove();
+                    
+                    if (value.length > 0) {
+                        let strengthText = 'Weak';
+                        let strengthColor = '#e74c3c';
+                        
+                        if (strength >= 3) {
+                            strengthText = 'Strong';
+                            strengthColor = '#2ecc71';
+                        } else if (strength >= 2) {
+                            strengthText = 'Medium';
+                            strengthColor = '#f39c12';
+                        }
+                        
+                        strengthMsg.textContent = 'Password strength: ' + strengthText;
+                        strengthMsg.style.color = strengthColor;
+                        strengthMsg.style.marginTop = '5px';
+                        strengthMsg.style.fontSize = '0.85rem';
+                        
+                        this.parentNode.appendChild(strengthMsg);
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

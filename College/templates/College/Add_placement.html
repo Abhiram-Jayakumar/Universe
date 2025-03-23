@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Placement - UNIVERSE</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #1a252f;
+            --success-color: #27ae60;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Navbar styles */
+        .navbar {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar h1 {
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .navbar h1 i {
+            color: var(--secondary-color);
+            margin-right: 10px;
+        }
+        
+        .navbar a {
+            color: white;
+            transition: transform 0.3s, color 0.3s;
+        }
+        
+        .navbar a:hover {
+            color: var(--secondary-color);
+            transform: translateX(-5px);
+        }
+        
+        /* Main content styles */
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .page-header h2 {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-header p {
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .page-header::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary-color);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Form container styles */
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Form element styles */
+        form label {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .form-control {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 0.8rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+        
+        .error-message {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--accent-color);
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* File upload styling */
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            border: 1px dashed #ddd;
+            border-radius: 6px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-label:hover {
+            border-color: var(--secondary-color);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .file-upload-icon {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-right: 1rem;
+        }
+        
+        .file-upload-text {
+            flex: 1;
+        }
+        
+        .file-upload input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .file-name {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Footer styles */
+        .footer {
+            background-color: var(--dark-color);
+            color: #bdc3c7;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            margin: 0;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-container {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        /* Tooltip styling */
+        .tooltip-trigger {
+            color: var(--secondary-color);
+            margin-left: 5px;
+            cursor: pointer;
+            position: relative;
+            font-size: 0.9rem;
+        }
+        
+        .tooltip-content {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+        
+        .tooltip-trigger:hover .tooltip-content {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Form section styling */
+        .form-section {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-section-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-section-title i {
+            margin-right: 0.5rem;
+            color: var(--secondary-color);
+        }
+        
+        /* Submit button container */
+        .submit-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1><i class="fas fa-calendar-check"></i> UNIVERSE</h1>
+        <a href="{% url 'College:college_home' %}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="page-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h2>Add a New Job Placement</h2>
+            <p>Create a new job placement opportunity for students</p>
+        </div>
+
+        <!-- Form Container -->
+        <div class="form-container">
+            <!-- Display error message if any -->
+            {% if error %}
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle"></i> {{ error }}
+                </div>
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data" id="placementForm">
+                {% csrf_token %}
+                
+                <!-- Basic Information Section -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-info-circle"></i> Basic Information
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="job_title">Job Title</label>
+                            <input type="text" id="job_title" name="job_title" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="company_name">Company Name</label>
+                            <input type="text" id="company_name" name="company_name" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Job Details Section -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-briefcase"></i> Job Details
+                    </div>
+                    <div class="mb-3">
+                        <label for="job_description">Job Description</label>
+                        <textarea id="job_description" name="job_description" class="form-control" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="skills_required">Skills Required</label>
+                        <textarea id="skills_required" name="skills_required" class="form-control" required placeholder="Enter skills separated by commas"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="application_deadline">
+                                Application Deadline
+                                <span class="tooltip-trigger">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span class="tooltip-content">Final date and time for student applications</span>
+                                </span>
+                            </label>
+                            <input type="datetime-local" id="application_deadline" name="application_deadline" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="salary">
+                                Salary (Annual)
+                                <span class="tooltip-trigger">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span class="tooltip-content">Leave blank if not disclosed</span>
+                                </span>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" id="salary" name="salary" class="form-control" step="0.01" placeholder="Optional">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Media Upload Section -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <i class="fas fa-image"></i> Company Logo/Image
+                    </div>
+                    <div class="file-upload">
+                        <label for="image" class="file-upload-label">
+                            <div class="file-upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div class="file-upload-text">
+                                <strong>Choose a company logo or image</strong>
+                                <p class="mb-0">Drag and drop or click to browse</p>
+                                <p class="text-muted small mt-1">Recommended size: 800×600 pixels, Max size: 2MB</p>
+                            </div>
+                        </label>
+                        <input type="file" id="image" name="image" class="form-control" accept="image/*">
+                        <div id="file-name" class="file-name"></div>
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="submit-container">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus-circle"></i> Post Placement
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 UNIVERSE - University Event Management. All rights reserved.</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Display selected filename
+        document.getElementById('image').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'No file selected';
+            document.getElementById('file-name').textContent = fileName;
+        });
+        
+        // Form validation
+        document.getElementById('placementForm').addEventListener('submit', function(event) {
+            let isValid = true;
+            const jobTitle = document.getElementById('job_title').value.trim();
+            const companyName = document.getElementById('company_name').value.trim();
+            const jobDescription = document.getElementById('job_description').value.trim();
+            
+            // Basic validation
+            if (jobTitle.length < 3) {
+                isValid = false;
+                highlightField('job_title', 'Job title must be at least 3 characters');
+            }
+            
+            if (companyName.length < 2) {
+                isValid = false;
+                highlightField('company_name', 'Company name must be at least 2 characters');
+            }
+            
+            if (jobDescription.length < 50) {
+                isValid = false;
+                highlightField('job_description', 'Job description must be at least 50 characters');
+            }
+            
+            // Prevent form submission if validation fails
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+        
+        // Highlight field with error
+        function highlightField(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            field.classList.add('is-invalid');
+            
+            // Create error message if it doesn't exist
+            if (!field.nextElementSibling || !field.nextElementSibling.classList.contains('invalid-feedback')) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'invalid-feedback';
+                errorDiv.textContent = message;
+                field.parentNode.insertBefore(errorDiv, field.nextElementSibling);
+            }
+            
+            // Remove highlight on input
+            field.addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+                const feedback = this.nextElementSibling;
+                if (feedback && feedback.classList.contains('invalid-feedback')) {
+                    feedback.remove();
+                }
+            }, { once: true });
+        }
+        
+        // Add animation when form loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const formContainer = document.querySelector('.form-container');
+            formContainer.style.opacity = '0';
+            formContainer.style.transform = 'translateY(20px)';
+            
+            setTimeout(function() {
+                formContainer.style.opacity = '1';
+                formContainer.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
