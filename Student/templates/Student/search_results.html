@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNIVERSE - Search Results</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --gray-light: #f8f9fa;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header styling */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #34495e 100%);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/api/placeholder/1200/300') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .search-title {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+        
+        .search-query {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        
+        /* Results counter */
+        .results-counter {
+            text-align: center;
+            padding: 20px 0;
+            color: var(--gray);
+            font-size: 1.1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .results-counter strong {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        /* Results container */
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        /* College Card */
+        .college-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .college-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .college-header {
+            padding: 20px;
+            background-color: var(--primary);
+            color: white;
+            position: relative;
+        }
+        
+        .college-name {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .university-name {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+        }
+        
+        .college-body {
+            padding: 20px;
+        }
+        
+        .college-info {
+            margin-bottom: 20px;
+        }
+        
+        .college-info p {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: var(--gray);
+        }
+        
+        .college-info i {
+            color: var(--secondary);
+            width: 25px;
+            margin-right: 10px;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray);
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
+        }
+        
+        /* Tab content */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Course list */
+        .course-list {
+            list-style: none;
+        }
+        
+        .course-item {
+            padding: 15px;
+            border-left: 3px solid var(--secondary);
+            background-color: var(--gray-light);
+            margin-bottom: 15px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .course-name {
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .course-duration {
+            background-color: var(--secondary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .course-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-style: italic;
+        }
+        
+        /* Faculty list */
+        .faculty-list {
+            list-style: none;
+        }
+        
+        .faculty-item {
+            display: flex;
+            padding: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faculty-avatar {
+            width: 60px;
+            height: 60px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .faculty-details {
+            flex: 1;
+        }
+        
+        .faculty-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .faculty-email {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+        
+        .faculty-email:hover {
+            text-decoration: underline;
+        }
+        
+        .faculty-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+        
+        .faculty-social {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        
+        .faculty-social:hover {
+            color: var(--secondary);
+        }
+        
+        .faculty-social i {
+            margin-right: 5px;
+        }
+        
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 50px 0;
+            color: var(--gray);
+        }
+        
+        .no-results i {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        /* Back button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        
+        .back-button:hover {
+            background-color: #34495e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .back-button i {
+            margin-right: 10px;
+        }
+        
+        .buttons-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .search-title {
+                font-size: 1.5rem;
+            }
+            
+            .faculty-item {
+                flex-direction: column;
+            }
+            
+            .faculty-avatar {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">UNI<span>VERSE</span></div>
+            <h2 class="search-title">Search Results</h2>
+            <div class="search-query">
+                <i class="fas fa-search"></i> "{{ query }}"
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        {% if results %}
+            <div class="results-counter">
+                Found <strong>{{ results|length }}</strong> matching colleges
+            </div>
+            
+            <div class="results-container">
+                {% for college in results %}
+                    <div class="college-card" id="college-{{ forloop.counter }}">
+                        <div class="college-header">
+                            <h3 class="college-name">{{ college.name }}</h3>
+                            <p class="university-name">{{ college.university.name }}</p>
+                        </div>
+                        
+                        <div class="college-body">
+                            <div class="college-info">
+                                <p><i class="fas fa-map-marker-alt"></i> {{ college.location }}</p>
+                                <p><i class="fas fa-phone"></i> {{ college.contact }}</p>
+                                <p><i class="fas fa-envelope"></i> {{ college.email }}</p>
+                            </div>
+                            
+                            <div class="tabs">
+                                <div class="tab active" onclick="switchTab('courses-{{ forloop.counter }}', this)">Courses</div>
+                                <div class="tab" onclick="switchTab('faculty-{{ forloop.counter }}', this)">Faculty</div>
+                            </div>
+                            
+                            <div id="courses-{{ forloop.counter }}" class="tab-content active">
+                                <ul class="course-list">
+                                    {% for course in college.course_set.all %}
+                                        <li class="course-item">
+                                            <div class="course-name">
+                                                {{ course.course_name }}
+                                                <span class="course-duration">{{ course.duration }}</span>
+                                            </div>
+                                            <p class="course-description">{{ course.description }}</p>
+                                        </li>
+                                    {% empty %}
+                                        <div class="no-results">
+                                            <i class="fas fa-book"></i>
+                                            <p>No courses available.</p>
+                                        </div>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            
+                            <div id="faculty-{{ forloop.counter }}" class="tab-content">
+                                <ul class="faculty-list">
+                                    {% for course in college.course_set.all %}
+                                        {% for faculty in course.faculty_set.all %}
+                                            <li class="faculty-item">
+                                                <div class="faculty-avatar">
+                                                    {{ faculty.name|first }}
+                                                </div>
+                                                <div class="faculty-details">
+                                                    <h4 class="faculty-name">{{ faculty.name }}</h4>
+                                                    <a href="mailto:{{ faculty.email }}" class="faculty-email">
+                                                        <i class="fas fa-envelope"></i> {{ faculty.email }}
+                                                    </a>
+                                                    <p class="faculty-description">{{ faculty.description }}</p>
+                                                    {% if faculty.social_media %}
+                                                        <a href="{{ faculty.social_media }}" target="_blank" class="faculty-social">
+                                                            <i class="fas fa-globe"></i> Social Media
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                    
+                                    {% if not college.course_set.all.0.faculty_set.all %}
+                                        <div class="no-results">
+                                            <i class="fas fa-user-tie"></i>
+                                            <p>No faculty members available.</p>
+                                        </div>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-results">
+                <i class="fas fa-search"></i>
+                <h3>No results found</h3>
+                <p>Try searching with different keywords</p>
+            </div>
+        {% endif %}
+        
+        <div class="buttons-container">
+            <a href="{% url 'Student:student_home' %}" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Search
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Function to switch between tabs
+        function switchTab(tabContentId, tabElement) {
+            // Get the college card containing this tab
+            const collegeCard = tabElement.closest('.college-card');
+            
+            // Hide all tab contents in this college card
+            const tabContents = collegeCard.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Deactivate all tabs in this college card
+            const tabs = collegeCard.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content and activate tab
+            document.getElementById(tabContentId).classList.add('active');
+            tabElement.classList.add('active');
+        }
+        
+        // Animation for cards on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.college-card');
+            
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 150);
+            });
+        });
+    </script>
+</body>
+</html>

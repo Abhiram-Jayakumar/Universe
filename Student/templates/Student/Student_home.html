@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNIVERSE - Student Portal</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #2c3e50;
@@ -17,20 +19,20 @@
             --warning: #f39c12;
             --info: #9b59b6;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background-color: var(--light);
             color: var(--dark);
             overflow-x: hidden;
         }
-        
+
         /* Header styling */
         header {
             background-color: var(--primary);
@@ -40,30 +42,30 @@
             z-index: 1000;
             transition: background-color 0.3s, box-shadow 0.3s;
         }
-        
+
         header.scrolled {
             background-color: rgba(44, 62, 80, 0.95);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1rem 5%;
         }
-        
+
         .logo {
             font-size: 2rem;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
-        
+
         .logo span {
             color: var(--secondary);
         }
-        
+
         .student-portal-badge {
             background-color: var(--accent);
             color: white;
@@ -75,12 +77,12 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
+
         .user-info {
             display: flex;
             align-items: center;
         }
-        
+
         .user-avatar {
             width: 40px;
             height: 40px;
@@ -93,11 +95,11 @@
             color: white;
             font-size: 1.2rem;
         }
-        
+
         .user-name {
             margin-right: 1rem;
         }
-        
+
         .logout-btn {
             background-color: var(--accent);
             color: white;
@@ -107,18 +109,18 @@
             font-weight: 600;
             transition: background-color 0.3s;
         }
-        
+
         .logout-btn:hover {
             background-color: #c0392b;
         }
-        
+
         /* Main container */
         .main-container {
             display: flex;
             padding-top: 80px;
             min-height: 100vh;
         }
-        
+
         /* Sidebar */
         .sidebar {
             width: 280px;
@@ -131,11 +133,11 @@
             transition: transform 0.3s;
             z-index: 100;
         }
-        
+
         .sidebar-collapsed {
             transform: translateX(-280px);
         }
-        
+
         .sidebar-toggle {
             position: fixed;
             left: 280px;
@@ -153,16 +155,16 @@
             transition: left 0.3s, transform 0.3s;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .sidebar-toggle.collapsed {
             left: 10px;
             transform: rotate(180deg);
         }
-        
+
         .nav-category {
             margin-bottom: 1.5rem;
         }
-        
+
         .nav-category-title {
             color: #95a5a6;
             font-size: 0.8rem;
@@ -172,11 +174,11 @@
             padding: 0.5rem 2rem;
             margin-bottom: 0.5rem;
         }
-        
+
         .nav-links {
             list-style: none;
         }
-        
+
         .nav-link {
             display: flex;
             align-items: center;
@@ -186,26 +188,26 @@
             transition: background-color 0.3s, color 0.3s;
             position: relative;
         }
-        
+
         .nav-link:hover {
             background-color: rgba(52, 152, 219, 0.1);
             color: var(--secondary);
         }
-        
+
         .nav-link.active {
             background-color: rgba(52, 152, 219, 0.2);
             color: var(--secondary);
             font-weight: 600;
             border-right: 3px solid var(--secondary);
         }
-        
+
         .nav-link i {
             margin-right: 1rem;
             font-size: 1.2rem;
             width: 24px;
             text-align: center;
         }
-        
+
         .nav-badge {
             position: absolute;
             right: 2rem;
@@ -215,7 +217,7 @@
             padding: 0.2rem 0.5rem;
             border-radius: 10px;
         }
-        
+
         /* Content */
         .content {
             flex: 1;
@@ -223,11 +225,11 @@
             padding: 2rem;
             transition: margin-left 0.3s;
         }
-        
+
         .content.expanded {
             margin-left: 0;
         }
-        
+
         .welcome-banner {
             background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
@@ -238,17 +240,17 @@
             overflow: hidden;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
-        
+
         .welcome-banner h1 {
             font-size: 1.8rem;
             margin-bottom: 0.5rem;
         }
-        
+
         .welcome-banner p {
             opacity: 0.9;
             max-width: 600px;
         }
-        
+
         .welcome-banner::after {
             content: '';
             position: absolute;
@@ -259,14 +261,14 @@
             top: -150px;
             right: -150px;
         }
-        
+
         .dashboard-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
-        
+
         .dashboard-card {
             background-color: white;
             border-radius: 10px;
@@ -274,25 +276,25 @@
             padding: 1.5rem;
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        
+
         .dashboard-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-        
+
         .dashboard-card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
         }
-        
+
         .dashboard-card-title {
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--primary);
         }
-        
+
         .dashboard-card-icon {
             width: 50px;
             height: 50px;
@@ -302,44 +304,44 @@
             justify-content: center;
             font-size: 1.5rem;
         }
-        
+
         .icon-events {
             background-color: rgba(52, 152, 219, 0.1);
             color: var(--secondary);
         }
-        
+
         .icon-notes {
             background-color: rgba(46, 204, 113, 0.1);
             color: var(--success);
         }
-        
+
         .icon-notifications {
             background-color: rgba(243, 156, 18, 0.1);
             color: var(--warning);
         }
-        
+
         .icon-chatbot {
             background-color: rgba(155, 89, 182, 0.1);
             color: var(--info);
         }
-        
+
         .dashboard-card-value {
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
         }
-        
+
         .dashboard-card-description {
             color: #7f8c8d;
             font-size: 0.9rem;
         }
-        
+
         .dashboard-card-footer {
             margin-top: 1rem;
             display: flex;
             justify-content: flex-end;
         }
-        
+
         .dashboard-card-link {
             display: flex;
             align-items: center;
@@ -349,15 +351,15 @@
             font-size: 0.9rem;
             transition: color 0.3s;
         }
-        
+
         .dashboard-card-link:hover {
             color: #2177b4;
         }
-        
+
         .dashboard-card-link i {
             margin-left: 0.5rem;
         }
-        
+
         .recent-section {
             background-color: white;
             border-radius: 10px;
@@ -365,7 +367,7 @@
             padding: 1.5rem;
             margin-bottom: 2rem;
         }
-        
+
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -374,13 +376,13 @@
             padding-bottom: 0.5rem;
             border-bottom: 1px solid #ecf0f1;
         }
-        
+
         .section-title {
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--primary);
         }
-        
+
         .view-all {
             color: var(--secondary);
             text-decoration: none;
@@ -388,26 +390,26 @@
             font-size: 0.9rem;
             transition: color 0.3s;
         }
-        
+
         .view-all:hover {
             color: #2177b4;
         }
-        
+
         .recent-list {
             list-style: none;
         }
-        
+
         .recent-item {
             display: flex;
             align-items: center;
             padding: 1rem 0;
             border-bottom: 1px solid #ecf0f1;
         }
-        
+
         .recent-item:last-child {
             border-bottom: none;
         }
-        
+
         .recent-icon {
             width: 40px;
             height: 40px;
@@ -418,43 +420,43 @@
             margin-right: 1rem;
             font-size: 1rem;
         }
-        
+
         .recent-details {
             flex: 1;
         }
-        
+
         .recent-title {
             font-weight: 600;
             margin-bottom: 0.3rem;
         }
-        
+
         .recent-meta {
             color: #7f8c8d;
             font-size: 0.8rem;
             display: flex;
         }
-        
+
         .recent-meta span {
             display: flex;
             align-items: center;
             margin-right: 1rem;
         }
-        
+
         .recent-meta i {
             margin-right: 0.3rem;
         }
-        
+
         .recent-action {
             color: var(--secondary);
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
         }
-        
+
         .recent-action:hover {
             color: #2177b4;
         }
-        
+
         /* Quick actions */
         .quick-actions {
             display: flex;
@@ -462,7 +464,7 @@
             gap: 1rem;
             margin-bottom: 2rem;
         }
-        
+
         .quick-action-btn {
             display: flex;
             align-items: center;
@@ -475,66 +477,66 @@
             transition: background-color 0.3s, transform 0.3s;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
         }
-        
+
         .quick-action-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .quick-action-btn.primary {
             background-color: var(--primary);
             color: white;
         }
-        
+
         .quick-action-btn.primary:hover {
             background-color: #1a2a38;
         }
-        
+
         .quick-action-btn.secondary {
             background-color: var(--secondary);
             color: white;
         }
-        
+
         .quick-action-btn.secondary:hover {
             background-color: #2177b4;
         }
-        
+
         .quick-action-btn.success {
             background-color: var(--success);
             color: white;
         }
-        
+
         .quick-action-btn.success:hover {
             background-color: #219d54;
         }
-        
+
         .quick-action-btn.warning {
             background-color: var(--warning);
             color: white;
         }
-        
+
         .quick-action-btn.warning:hover {
             background-color: #d18a0e;
         }
-        
+
         .quick-action-btn.info {
             background-color: var(--info);
             color: white;
         }
-        
+
         .quick-action-btn.info:hover {
             background-color: #7d4a99;
         }
-        
+
         .quick-action-btn.accent {
             background-color: var(--accent);
             color: white;
         }
-        
+
         .quick-action-btn.accent:hover {
             background-color: #c0392b;
         }
-        
+
         .quick-action-btn i {
             margin-right: 0.5rem;
             font-size: 1.2rem;
@@ -548,7 +550,7 @@
             text-align: center;
             margin-top: 2rem;
         }
-        
+
         .footer-logo {
             font-size: 1.5rem;
             font-weight: 700;
@@ -556,87 +558,181 @@
             text-transform: uppercase;
             margin-bottom: 1rem;
         }
-        
+
         .footer-logo span {
             color: var(--secondary);
         }
-        
+
         .footer-text {
             color: #bdc3c7;
             max-width: 600px;
             margin: 0 auto 1.5rem;
         }
-        
+
         .footer-links {
             display: flex;
             justify-content: center;
             gap: 1.5rem;
             margin-bottom: 1.5rem;
         }
-        
+
         .footer-link {
             color: #bdc3c7;
             text-decoration: none;
             transition: color 0.3s;
         }
-        
+
         .footer-link:hover {
             color: var(--secondary);
         }
-        
+
         .copyright {
             color: #7f8c8d;
             font-size: 0.9rem;
         }
-        
+
         /* Responsive */
         @media (max-width: 992px) {
             .sidebar {
                 transform: translateX(-280px);
             }
-            
+
             .sidebar-toggle {
                 left: 10px;
                 transform: rotate(180deg);
             }
-            
+
             .content {
                 margin-left: 0;
             }
-            
+
             .dashboard-grid {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             }
         }
-        
+
         @media (max-width: 768px) {
             .user-name {
                 display: none;
             }
-            
+
             .welcome-banner h1 {
                 font-size: 1.5rem;
             }
-            
+
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .quick-actions {
                 flex-direction: column;
             }
-            
+
             .quick-action-btn {
+                width: 100%;
+            }
+        }
+
+        .college-search-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .search-wrapper:focus-within {
+            box-shadow: 0 6px 8px rgba(0, 123, 255, 0.2);
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
+            border-right: none;
+            font-size: 16px;
+            outline: none;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            background-color: #ffffff;
+            border-color: #007bff;
+        }
+
+        .search-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+
+        .search-button:active {
+            transform: scale(0.98);
+        }
+
+        .search-button svg {
+            stroke: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .search-wrapper {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .search-input {
+                width: 100%;
+                border-right: 1px solid #e0e0e0;
+                border-bottom: none;
+            }
+
+            .search-button {
                 width: 100%;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header id="header">
         <div class="header-container">
             <div class="logo">UNI<span>VERSE</span> <span class="student-portal-badge">Student Portal</span></div>
+            <form action="{% url 'Student:search_colleges' %}" method="GET" class="college-search-form">
+                <div class="search-wrapper">
+                    <input type="text" name="q" placeholder="Search by College or University" value="{{ query }}"
+                        class="search-input">
+                    <button type="submit" class="search-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        Search
+                    </button>
+                </div>
+            </form>
             <div class="user-info">
                 <div class="user-avatar">
                     <i class="fas fa-user"></i>
@@ -673,7 +769,7 @@
                     </li>
                 </ul>
             </div>
-            
+
             <div class="nav-category">
                 <div class="nav-category-title">Event Management</div>
                 <ul class="nav-links">
@@ -689,7 +785,7 @@
                     </li>
                 </ul>
             </div>
-            
+
             <div class="nav-category">
                 <div class="nav-category-title">Academic Resources</div>
                 <ul class="nav-links">
@@ -705,7 +801,7 @@
                     </li>
                 </ul>
             </div>
-            
+
             <div class="nav-category">
                 <div class="nav-category-title">Support</div>
                 <ul class="nav-links">
@@ -723,19 +819,20 @@
                 </ul>
             </div>
         </div>
-        
+
         <!-- Sidebar Toggle Button -->
         <div class="sidebar-toggle" id="sidebarToggle">
             <i class="fas fa-chevron-left"></i>
         </div>
-        
+
         <!-- Content -->
         <div class="content" id="content">
             <div class="welcome-banner">
                 <h1>Welcome to Your Student Portal, {{student.name}}</h1>
-                <p>Manage your university events, access academic resources, and stay connected with your campus community.</p>
+                <p>Manage your university events, access academic resources, and stay connected with your campus
+                    community.</p>
             </div>
-            
+
             <div class="quick-actions">
                 <a href="{% url 'Student:add_student_event_post' %}" class="quick-action-btn primary">
                     <i class="bi bi-calendar-plus"></i> Create Event
@@ -750,7 +847,7 @@
                     <i class="bi bi-person-circle"></i> View Profile
                 </a>
             </div>
-            
+
             <div class="dashboard-grid">
                 <div class="dashboard-card">
                     <div class="dashboard-card-header">
@@ -767,7 +864,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="dashboard-card">
                     <div class="dashboard-card-header">
                         <h3 class="dashboard-card-title">My Notes</h3>
@@ -783,7 +880,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="dashboard-card">
                     <div class="dashboard-card-header">
                         <h3 class="dashboard-card-title">Notifications</h3>
@@ -799,7 +896,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="dashboard-card">
                     <div class="dashboard-card-header">
                         <h3 class="dashboard-card-title">Chat Support</h3>
@@ -807,7 +904,8 @@
                             <i class="bi bi-robot"></i>
                         </div>
                     </div>
-                    <div class="dashboard-card-description">Need assistance? Our smart chatbot is here to help with your questions</div>
+                    <div class="dashboard-card-description">Need assistance? Our smart chatbot is here to help with your
+                        questions</div>
                     <div class="dashboard-card-footer">
                         <a href="{% url 'Student:Chat_bot' %}" class="dashboard-card-link">
                             Start Chatting <i class="fas fa-arrow-right"></i>
@@ -815,7 +913,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="recent-section">
                 <div class="section-header">
                     <h3 class="section-title">Recent Events</h3>
@@ -823,7 +921,8 @@
                 </div>
                 <ul class="recent-list">
                     <li class="recent-item">
-                        <div class="recent-icon" style="background-color: rgba(52, 152, 219, 0.1); color: var(--secondary);">
+                        <div class="recent-icon"
+                            style="background-color: rgba(52, 152, 219, 0.1); color: var(--secondary);">
                             <i class="bi bi-music-note-beamed"></i>
                         </div>
                         <div class="recent-details">
@@ -836,7 +935,8 @@
                         <a href="#" class="recent-action">Details</a>
                     </li>
                     <li class="recent-item">
-                        <div class="recent-icon" style="background-color: rgba(46, 204, 113, 0.1); color: var(--success);">
+                        <div class="recent-icon"
+                            style="background-color: rgba(46, 204, 113, 0.1); color: var(--success);">
                             <i class="bi bi-people"></i>
                         </div>
                         <div class="recent-details">
@@ -849,7 +949,8 @@
                         <a href="#" class="recent-action">Details</a>
                     </li>
                     <li class="recent-item">
-                        <div class="recent-icon" style="background-color: rgba(243, 156, 18, 0.1); color: var(--warning);">
+                        <div class="recent-icon"
+                            style="background-color: rgba(243, 156, 18, 0.1); color: var(--warning);">
                             <i class="bi bi-book"></i>
                         </div>
                         <div class="recent-details">
@@ -863,7 +964,7 @@
                     </li>
                 </ul>
             </div>
-            
+
             <div class="recent-section">
                 <div class="section-header">
                     <h3 class="section-title">Recently Uploaded Notes</h3>
@@ -871,7 +972,8 @@
                 </div>
                 <ul class="recent-list">
                     <li class="recent-item">
-                        <div class="recent-icon" style="background-color: rgba(46, 204, 113, 0.1); color: var(--success);">
+                        <div class="recent-icon"
+                            style="background-color: rgba(46, 204, 113, 0.1); color: var(--success);">
                             <i class="bi bi-file-pdf"></i>
                         </div>
                         <div class="recent-details">
@@ -884,7 +986,8 @@
                         <a href="#" class="recent-action">View</a>
                     </li>
                     <li class="recent-item">
-                        <div class="recent-icon" style="background-color: rgba(46, 204, 113, 0.1); color: var(--success);">
+                        <div class="recent-icon"
+                            style="background-color: rgba(46, 204, 113, 0.1); color: var(--success);">
                             <i class="bi bi-file-word"></i>
                         </div>
                         <div class="recent-details">
@@ -892,9 +995,11 @@
                             <div class="recent-meta">
                                 <span class="recent-date"><i class="far fa-calendar-alt"></i> March 15, 2025</span>
                                 <span class="recent-author"><i class="far fa-user"></i> Dr. Emma Johnson</span>
-                                <span class="recent-department"><i class="fas fa-university"></i> Psychology Department</span>
+                                <span class="recent-department"><i class="fas fa-university"></i> Psychology
+                                    Department</span>
                             </div>
-                            <p class="recent-description">A comprehensive study on the effects of social media on student mental health and academic performance.</p>
+                            <p class="recent-description">A comprehensive study on the effects of social media on
+                                student mental health and academic performance.</p>
                             <div class="recent-actions">
                                 <a href="#" class="recent-button"><i class="fas fa-eye"></i> View Details</a>
                                 <a href="#" class="recent-button secondary"><i class="fas fa-download"></i> Download</a>
@@ -906,4 +1011,5 @@
         </div>
     </div>
 </body>
+
 </html>

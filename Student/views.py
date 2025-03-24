@@ -404,3 +404,14 @@ def list_notes(request):
         "notes": notes,
         "selected_university_id": selected_university_id,
     })
+    
+#//////////////////////////////////////////////////////////////////////////////////////////////
+
+def search_colleges(request):
+    query = request.GET.get("q", "")  # Get the search query from the URL
+    results = []
+
+    if query:
+        results = College.objects.filter(name__icontains=query) | College.objects.filter(university__name__icontains=query)
+
+    return render(request, "Student/search_results.html", {"results": results, "query": query})

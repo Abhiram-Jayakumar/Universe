@@ -23,4 +23,5 @@ urlpatterns = [
     path("Chat_bot/", views.Chat_bot, name="Chat_bot"),
     path("upload/", views.upload_note, name="upload_note"),
     path("notes/", views.list_notes, name="list_notes"),
+    path("search/", views.search_colleges, name="search_colleges"),
 ]
